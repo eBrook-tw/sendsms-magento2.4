@@ -68,16 +68,20 @@ class NotifySMSSender
     ) {
         $sent = $proceed($object, $forceSyncMode, $comment);
 
+        if (!$sent || !$this->helper->isEneabled($object->getStoreId())) {
+            return $sent;
+        }
+
         $gdpr = $this->helper->getValue(
             'sendsms_settings_order_messages/gdpr',
             ScopeInterface::SCOPE_STORE,
-            $order->getStoreId()
+            $object->getStoreId()
         );
 
         $short = $this->helper->getValue(
             'sendsms_settings_order_messages/short',
             ScopeInterface::SCOPE_STORE,
-            $order->getStoreId()
+            $object->getStoreId()
         );
 
         $message = $this->helper->processTemplate(
@@ -94,7 +98,8 @@ class NotifySMSSender
                 $message,
                 $this->type,
                 $gdpr,
-                $short
+                $short,
+                $object->getStoreId()
             );
         }
 

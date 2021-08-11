@@ -296,7 +296,7 @@ class Prefix implements \Magento\Framework\Option\ArrayInterface
     public function toOptionArray()
     {
         $output   = [];
-        $output[] = ['value' => 'INT', 'label' => "International"];
+        $output[] = ['value' => 'INT', 'label' => __('International')];
         foreach ($this->countryCodes as $key => $value) {
             $output[] = ['value' => $value, 'label' => "$key ($value)"];
         }
@@ -311,10 +311,11 @@ class Prefix implements \Magento\Framework\Option\ArrayInterface
     public function toArray()
     {
         $output        = [];
-        $output["INT"] = "International";
+        $output['INT'] = __('International');
         foreach ($this->countryCodes as $key => $value) {
             $output[$value] = "$key ($value)";
         }
+
         return $output;
     }
 }

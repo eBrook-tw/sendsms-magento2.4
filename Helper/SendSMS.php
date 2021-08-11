@@ -27,8 +27,10 @@ use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\Sales\Model\AbstractModel;
 use Magento\Sales\Model\Order;
+use Magento\Sales\Model\Order\Creditmemo;
 use Magento\Sales\Model\Order\Invoice;
 use Magento\Sales\Model\Order\Shipment;
+use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -197,6 +199,20 @@ class SendSMS extends AbstractHelper
     }
 
     /**
+     *
+     * @param  null|int  $storeId
+     * @return boolean
+     */
+    public function isEneabled($storeId = null)
+    {
+        return (boolean) (int) $this->getValue(
+            'enabled',
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
      * Get username
      *
      * @return string
@@ -298,6 +314,7 @@ class SendSMS extends AbstractHelper
      * @param  string  $type
      * @param  boolean $gdpr
      * @param  boolean $short
+     * @param  null    $storeId
      * @return void
      */
     public function sendSMS(
@@ -305,13 +322,26 @@ class SendSMS extends AbstractHelper
         $message,
         $type = 'order',
         $gdpr = false,
-        $short = false
+        $short = false,
+        $storeId = null
     ) {
-        $from       = $this->getValue('sendsms_settings_from');
-        $simulation = $this->getValue('sendsms_settings_simulation');
+        $from = $this->getValue(
+            'sendsms_settings_from',
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+        $simulation = $this->getValue(
+            'sendsms_settings_simulation',
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
 
         if ($simulation && $type !== 'test') {
-            $phone = $this->getValue('sendsms_settings_simulation_number');
+            $phone = $this->getValue(
+                'sendsms_settings_simulation_number',
+                ScopeInterface::SCOPE_STORE,
+                $storeId
+            );
         }
 
         $phone = $this->validatePhone($phone);
@@ -321,7 +351,11 @@ class SendSMS extends AbstractHelper
                 Zend_Http_Client::GET,
                 [
                     'action' => 'message_send' . ($gdpr ? '_gdpr' : ''),
-                    'from'   => $this->getValue('sendsms_settings_from'),
+                    'from'   => $this->getValue(
+                        'sendsms_settings_from',
+                        ScopeInterface::SCOPE_STORE,
+                        $storeId
+                    ),
                     'to'     => $phone,
                     'text'   => $message,
                     'short'  => $short ? 'true' : 'false',
@@ -865,7 +899,7 @@ class SendSMS extends AbstractHelper
      * @param  string $type
      * @return string
      */
-    public function getPhoneNumber(AbstractModel $object)
+    public function getPhoneNumber(AbstractModel $object, $type)
     {
         $phoneNumber = '';
         switch ($type) {

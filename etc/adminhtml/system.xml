@@ -19,62 +19,66 @@
             <label>Settings</label>
             <tab>sendsms_tab</tab>
             <resource>AnyPlaceMedia_SendSMS::sendsms_configuration</resource>
-            <group id="sendsms" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+            <group id="sendsms" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Settings</label>
-                <field id="sendsms_settings_username" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable SMS</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="sendsms_settings_username" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Username</label>
                     <comment model="AnyPlaceMedia\SendSMS\Block\Adminhtml\System\Balance" />
                 </field>
-                <field id="sendsms_settings_password" translate="label" type="password" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="sendsms_settings_password" translate="label" type="password" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Password</label>
                 </field>
-                <field id="sendsms_settings_from" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="sendsms_settings_from" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Label</label>
                     <comment model="AnyPlaceMedia\SendSMS\Block\Adminhtml\System\DynamicComment" />
                 </field>
-                <field id="sendsms_settings_prefix" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="sendsms_settings_prefix" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Phone number prefix</label>
                     <source_model>AnyPlaceMedia\SendSMS\Model\Config\Source\Prefix</source_model>
                 </field>
-                <field id="sendsms_settings_simulation" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="sendsms_settings_simulation" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>SMS sending simulation</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="sendsms_settings_simulation_number" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="sendsms_settings_simulation_number" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>SMS simulation phone number</label>
                 </field>
-                <group id="sendsms_settings_order_messages" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <group id="sendsms_settings_order_messages" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Order Settings</label>
-                    <field id="gdpr" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <field id="gdpr" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Unsubcribe Link?</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     </field>
-                    <field id="short" translate="label" type="select" sortOrder="6" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <field id="short" translate="label" type="select" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Minimize All URLs?</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     </field>
-                    <field id="order" translate="label" type="textarea" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <field id="order" translate="label" type="textarea" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Order Template</label>
                     </field>
-                    <field id="order_comment" translate="label" type="textarea" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <field id="order_comment" translate="label" type="textarea" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Order Comment Template</label>
                     </field>
-                    <field id="invoice" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <field id="invoice" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Invoice Template</label>
                     </field>
-                    <field id="invoice_comment" translate="label" type="textarea" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <field id="invoice_comment" translate="label" type="textarea" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Invoice Comment Template</label>
                     </field>
-                    <field id="shipment" translate="label" type="textarea" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <field id="shipment" translate="label" type="textarea" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Shipment Template</label>
                     </field>
-                    <field id="shipment_comment" translate="label" type="textarea" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <field id="shipment_comment" translate="label" type="textarea" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Shipment Comment Template</label>
                     </field>
-                    <field id="creditmemo" translate="label" type="textarea" sortOrder="70" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <field id="creditmemo" translate="label" type="textarea" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Credimemo Template</label>
                     </field>
-                    <field id="creditmemo_comment" translate="label" type="textarea" sortOrder="80" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <field id="creditmemo_comment" translate="label" type="textarea" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Credimemo Comment Template</label>
                     </field>
                 </group>

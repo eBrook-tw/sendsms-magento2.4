@@ -11,6 +11,7 @@
 namespace AnyPlaceMedia\SendSMS\Plugin;
 
 use AnyPlaceMedia\SendSMS\Helper\SendSMS;
+use Magento\Sales\Model\AbstractModel;
 use Magento\Sales\Model\Order\Email\Sender;
 use Magento\Store\Model\ScopeInterface;
 use Psr\Log\LoggerInterface;
@@ -64,16 +65,20 @@ class SMSSender
     ) {
         $sent = $proceed($object, $forceSyncMode);
 
+        if (!$sent || !$this->helper->isEneabled($object->getStoreId())) {
+            return $sent;
+        }
+
         $gdpr = $this->helper->getValue(
             'sendsms_settings_order_messages/gdpr',
             ScopeInterface::SCOPE_STORE,
-            $order->getStoreId()
+            $object->getStoreId()
         );
 
         $short = $this->helper->getValue(
             'sendsms_settings_order_messages/short',
             ScopeInterface::SCOPE_STORE,
-            $order->getStoreId()
+            $object->getStoreId()
         );
 
         $message = $this->helper->processTemplate(
@@ -89,7 +94,8 @@ class SMSSender
                 $message,
                 $this->type,
                 $gdpr,
-                $short
+                $short,
+                $object->getStoreId()
             );
         }
 
