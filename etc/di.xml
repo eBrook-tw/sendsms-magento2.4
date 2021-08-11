@@ -1,4 +1,14 @@
 <?xml version="1.0"?>
+<!--
+/**
+ * Ebrook
+ *
+ * @category    Ebrook
+ * @package     AnyPlaceMedia_SendSMS
+ * @copyright   Copyright © 2021 Ebrook co., ltd. (https://www.ebrook.com.tw)
+ * @source https://github.com/sendSMS-RO/sendsms-magento2.4
+ */
+-->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <virtualType name="AnyPlaceMedia\SendSMS\Model\ResourceModel\History\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
         <arguments>
@@ -12,5 +22,100 @@
                 <item name="sendsms_history_grid_data_source" xsi:type="string">AnyPlaceMedia\SendSMS\Model\ResourceModel\History\Collection</item>
             </argument>
         </arguments>
+    </type>
+    <virtualType name="AnyPlaceMedia\SendSMS\Model\Logger" type="Magento\Framework\Logger\Handler\Base">
+        <arguments>
+            <argument name="fileName" xsi:type="string">/var/log/ro-send-sms.log</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AnyPlaceMedia\SendSMS\Model\Request\Logger" type="Magento\Framework\Logger\Monolog">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="debug" xsi:type="object">AnyPlaceMedia\SendSMS\Model\Logger</item>
+                <item name="error" xsi:type="object">AnyPlaceMedia\SendSMS\Model\Logger</item>
+                <item name="info" xsi:type="object">AnyPlaceMedia\SendSMS\Model\Logger</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="AnyPlaceMedia\SendSMS\Helper\SendSMS">
+        <arguments>
+            <argument name="logger" xsi:type="object">AnyPlaceMedia\SendSMS\Model\Request\Logger</argument>
+        </arguments>
+    </type>
+    <virtualType name="AnyPlaceMedia\SendSMS\Plugin\OrderSMSSender" type="AnyPlaceMedia\SendSMS\Plugin\SMSSender">
+        <arguments>
+            <argument name="logger" xsi:type="object">AnyPlaceMedia\SendSMS\Model\Request\Logger</argument>
+            <argument name="type" xsi:type="const">\AnyPlaceMedia\SendSMS\Helper\SendSMS::TYPE_ORDER</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AnyPlaceMedia\SendSMS\Plugin\ShipmentSMSSender" type="AnyPlaceMedia\SendSMS\Plugin\SMSSender">
+        <arguments>
+            <argument name="logger" xsi:type="object">AnyPlaceMedia\SendSMS\Model\Request\Logger</argument>
+            <argument name="type" xsi:type="const">\AnyPlaceMedia\SendSMS\Helper\SendSMS::TYPE_SHIPMENT</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AnyPlaceMedia\SendSMS\Plugin\InvoiceSMSSender" type="AnyPlaceMedia\SendSMS\Plugin\SMSSender">
+        <arguments>
+            <argument name="logger" xsi:type="object">AnyPlaceMedia\SendSMS\Model\Request\Logger</argument>
+            <argument name="type" xsi:type="const">\AnyPlaceMedia\SendSMS\Helper\SendSMS::TYPE_INVOICE</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AnyPlaceMedia\SendSMS\Plugin\CreditmemoSMSSender" type="AnyPlaceMedia\SendSMS\Plugin\SMSSender">
+        <arguments>
+            <argument name="logger" xsi:type="object">AnyPlaceMedia\SendSMS\Model\Request\Logger</argument>
+            <argument name="type" xsi:type="const">\AnyPlaceMedia\SendSMS\Helper\SendSMS::TYPE_CREDITMEMO</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AnyPlaceMedia\SendSMS\Plugin\OrderCommentSMSSender" type="AnyPlaceMedia\SendSMS\Plugin\NotifySMSSender">
+        <arguments>
+            <argument name="logger" xsi:type="object">AnyPlaceMedia\SendSMS\Model\Request\Logger</argument>
+            <argument name="type" xsi:type="const">\AnyPlaceMedia\SendSMS\Helper\SendSMS::TYPE_ORDER_COMMENT</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AnyPlaceMedia\SendSMS\Plugin\ShipmentCommentSMSSender" type="AnyPlaceMedia\SendSMS\Plugin\NotifySMSSender">
+        <arguments>
+            <argument name="logger" xsi:type="object">AnyPlaceMedia\SendSMS\Model\Request\Logger</argument>
+            <argument name="type" xsi:type="const">\AnyPlaceMedia\SendSMS\Helper\SendSMS::TYPE_SHIPMENT_COMMENT</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AnyPlaceMedia\SendSMS\Plugin\InvoiceCommentSMSSender" type="AnyPlaceMedia\SendSMS\Plugin\NotifySMSSender">
+        <arguments>
+            <argument name="logger" xsi:type="object">AnyPlaceMedia\SendSMS\Model\Request\Logger</argument>
+            <argument name="type" xsi:type="const">\AnyPlaceMedia\SendSMS\Helper\SendSMS::TYPE_INVOICE_COMMENT</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AnyPlaceMedia\SendSMS\Plugin\CreditmemoCommentSMSSender" type="AnyPlaceMedia\SendSMS\Plugin\NotifySMSSender">
+        <arguments>
+            <argument name="logger" xsi:type="object">AnyPlaceMedia\SendSMS\Model\Request\Logger</argument>
+            <argument name="type" xsi:type="const">\AnyPlaceMedia\SendSMS\Helper\SendSMS::TYPE_CREDITMEMO_COMMENT</argument>
+        </arguments>
+    </virtualType>
+    <!-- @deprecated -->
+    <type name="Magento\Sales\Model\Order\Email\Sender\ShipmentSender">
+        <plugin name="AnyPlaceMedia_SendSMS::send_sms" type="AnyPlaceMedia\SendSMS\Plugin\ShipmentSMSSender" sortOrder="10"/>
+    </type>
+    <type name="Magento\Sales\Model\Order\Shipment\Sender\EmailSender">
+        <plugin name="AnyPlaceMedia_SendSMS::send_sms" type="AnyPlaceMedia\SendSMS\Plugin\ShipmentSMSSender" sortOrder="10"/>
+    </type>
+    <type name="Magento\Sales\Model\Order\Email\Sender\ShipmentCommentSender">
+        <plugin name="AnyPlaceMedia_SendSMS::send_sms" type="AnyPlaceMedia\SendSMS\Plugin\ShipmentCommentSMSSender" sortOrder="10"/>
+    </type>
+    <type name="Magento\Sales\Model\Order\Email\Sender\OrderSender">
+        <plugin name="AnyPlaceMedia_SendSMS::send_sms" type="AnyPlaceMedia\SendSMS\Plugin\OrderSMSSender" sortOrder="10"/>
+    </type>
+    <type name="Magento\Sales\Model\Order\Email\Sender\OrderCommentSender">
+        <plugin name="AnyPlaceMedia_SendSMS::send_sms" type="AnyPlaceMedia\SendSMS\Plugin\OrderCommentSMSSender" sortOrder="10"/>
+    </type>
+    <type name="Magento\Sales\Model\Order\Email\Sender\InvoiceSender">
+        <plugin name="AnyPlaceMedia_SendSMS::send_sms" type="AnyPlaceMedia\SendSMS\Plugin\InvoiceSMSSender" sortOrder="10"/>
+    </type>
+    <type name="Magento\Sales\Model\Order\Email\Sender\InvoiceCommentSender">
+        <plugin name="AnyPlaceMedia_SendSMS::send_sms" type="AnyPlaceMedia\SendSMS\Plugin\InvoiceCommentSMSSender" sortOrder="10"/>
+    </type>
+    <type name="Magento\Sales\Model\Order\Email\Sender\CreditmemoSender">
+        <plugin name="AnyPlaceMedia_SendSMS::send_sms" type="AnyPlaceMedia\SendSMS\Plugin\CreditmemoSMSSender" sortOrder="10"/>
+    </type>
+    <type name="Magento\Sales\Model\Order\Email\Sender\CreditmemoCommentSender">
+        <plugin name="AnyPlaceMedia_SendSMS::send_sms" type="AnyPlaceMedia\SendSMS\Plugin\CreditmemoCommentSMSSender" sortOrder="10"/>
     </type>
 </config>

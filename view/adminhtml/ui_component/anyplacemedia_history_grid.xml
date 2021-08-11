@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Ebrook
+ *
+ * @category    Ebrook
+ * @package     AnyPlaceMedia_SendSMS
+ * @copyright   Copyright © 2021 Ebrook co., ltd. (https://www.ebrook.com.tw)
+ * @source https://github.com/sendSMS-RO/sendsms-magento2.4
+ */
+-->
 <listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <!--Declare data source, columns list, button...-->
     <argument name="data" xsi:type="array">

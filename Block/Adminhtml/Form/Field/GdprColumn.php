@@ -1,5 +1,13 @@
 <?php
-declare(strict_types=1);
+/**
+ * Ebrook
+ *
+ * @category    Ebrook
+ * @package     AnyPlaceMedia_SendSMS
+ * @copyright   Copyright © 2021 Ebrook co., ltd. (https://www.ebrook.com.tw)
+ * @source https://github.com/sendSMS-RO/sendsms-magento2.4
+ */
+declare (strict_types = 1);
 
 namespace AnyPlaceMedia\SendSMS\Block\Adminhtml\Form\Field;
 

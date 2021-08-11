@@ -1,4 +1,12 @@
 <?php
+/**
+ * Ebrook
+ *
+ * @category    Ebrook
+ * @package     AnyPlaceMedia_SendSMS
+ * @copyright   Copyright © 2021 Ebrook co., ltd. (https://www.ebrook.com.tw)
+ * @source https://github.com/sendSMS-RO/sendsms-magento2.4
+ */
 
 namespace AnyPlaceMedia\SendSMS\Controller\Adminhtml\Campaign;
 
@@ -26,7 +34,7 @@ class Index extends \Magento\Backend\App\Action
         if (is_array($postData)) {
             $resultRedirect = $this->resultRedirectFactory->create();
             return $resultRedirect->setPath('*/*/filtered', [
-                '_query' => $postData
+                '_query' => $postData,
             ]);
         }
 

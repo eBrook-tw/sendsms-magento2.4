@@ -1,3 +1,12 @@
+/**
+ * Ebrook
+ *
+ * @category    Ebrook
+ * @package     AnyPlaceMedia_SendSMS
+ * @copyright   Copyright © 2021 Ebrook co., ltd. (https://www.ebrook.com.tw)
+ * @source https://github.com/sendSMS-RO/sendsms-magento2.4
+ */
+
 document.onreadystatechange = function() {
     var max_chars = 160;
     var char_counts = document.getElementsByClassName('sendsms-char-count');

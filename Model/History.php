@@ -1,4 +1,14 @@
-<?php namespace AnyPlaceMedia\SendSMS\Model;
+<?php
+/**
+ * Ebrook
+ *
+ * @category    Ebrook
+ * @package     AnyPlaceMedia_SendSMS
+ * @copyright   Copyright © 2021 Ebrook co., ltd. (https://www.ebrook.com.tw)
+ * @source https://github.com/sendSMS-RO/sendsms-magento2.4
+ */
+
+namespace AnyPlaceMedia\SendSMS\Model;
 
 use AnyPlaceMedia\SendSMS\API\Data\HistoryInterface;
 use Magento\Framework\DataObject\IdentityInterface;
@@ -6,10 +16,12 @@ use Magento\Framework\DataObject\IdentityInterface;
 class History extends \Magento\Framework\Model\AbstractModel implements HistoryInterface, IdentityInterface
 {
 
-    /**#@+
+    /**#@+*/
+    /**
      * Post's Statuses
      */
     const STATUS_ENABLED = 1;
+
     const STATUS_DISABLED = 0;
     /**#@-*/
 
@@ -37,7 +49,9 @@ class History extends \Magento\Framework\Model\AbstractModel implements HistoryI
      */
     protected function _construct()
     {
-        $this->_init(\AnyPlaceMedia\SendSMS\Model\ResourceModel\History::class);
+        $this->_init(
+            \AnyPlaceMedia\SendSMS\Model\ResourceModel\History::class
+        );
     }
 
     /**

@@ -1,4 +1,13 @@
 <?php
+/**
+ * Ebrook
+ *
+ * @category    Ebrook
+ * @package     AnyPlaceMedia_SendSMS
+ * @copyright   Copyright © 2021 Ebrook co., ltd. (https://www.ebrook.com.tw)
+ * @source https://github.com/sendSMS-RO/sendsms-magento2.4
+ */
+
 namespace AnyPlaceMedia\SendSMS\API\Data;
 
 interface HistoryInterface
@@ -7,13 +16,13 @@ interface HistoryInterface
      * Constants for keys of data array. Identical to the name of the getter in snake case
      */
     const HISTORY_ID = 'history_id';
-    const STATUS = 'status';
-    const MESSAGE = 'message';
-    const DETAILS = 'details';
-    const CONTENT = 'content';
-    const TYPE = 'type';
-    const SENT_ON = 'sent_on';
-    const PHONE = 'phone';
+    const STATUS     = 'status';
+    const MESSAGE    = 'message';
+    const DETAILS    = 'details';
+    const CONTENT    = 'content';
+    const TYPE       = 'type';
+    const SENT_ON    = 'sent_on';
+    const PHONE      = 'phone';
 
     /**
      * Get ID

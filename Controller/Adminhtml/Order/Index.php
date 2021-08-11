@@ -1,15 +1,22 @@
 <?php
+/**
+ * Ebrook
+ *
+ * @category    Ebrook
+ * @package     AnyPlaceMedia_SendSMS
+ * @copyright   Copyright © 2021 Ebrook co., ltd. (https://www.ebrook.com.tw)
+ * @source https://github.com/sendSMS-RO/sendsms-magento2.4
+ */
 
 namespace AnyPlaceMedia\SendSMS\Controller\Adminhtml\Order;
 
 use Magento\Backend\App\Action;
+use Magento\Framework\App\Action\HttpPostActionInterface;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Sales\Api\OrderManagementInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Psr\Log\LoggerInterface;
-use Magento\Framework\Controller\ResultFactory;
-use Magento\Framework\App\Action\HttpPostActionInterface;
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Exception\InputException;
 
 class Index extends \Magento\Backend\App\Action implements HttpPostActionInterface
 {
@@ -66,20 +73,23 @@ class Index extends \Magento\Backend\App\Action implements HttpPostActionInterfa
     protected $logger;
 
     /**
-     * @param Action\Context $context
-     * @param \Magento\Framework\Registry $coreRegistry
+     * @var \AnyPlaceMedia\SendSMS\Helper\SendSMS
+     */
+    protected $helper;
+
+    /**
+     * @param Action\Context                                   $context
+     * @param \Magento\Framework\Registry                      $coreRegistry
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
-     * @param \Magento\Framework\Translate\InlineInterface $translateInline
-     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
+     * @param \Magento\Framework\Translate\InlineInterface     $translateInline
+     * @param \Magento\Framework\View\Result\PageFactory       $resultPageFactory
      * @param \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory
-     * @param \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory
-     * @param \Magento\Framework\Controller\Result\RawFactory $resultRawFactory
-     * @param OrderManagementInterface $orderManagement
-     * @param OrderRepositoryInterface $orderRepository
-     * @param LoggerInterface $logger
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
-     * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+     * @param \Magento\Framework\View\Result\LayoutFactory     $resultLayoutFactory
+     * @param \Magento\Framework\Controller\Result\RawFactory  $resultRawFactory
+     * @param OrderManagementInterface                         $orderManagement
+     * @param OrderRepositoryInterface                         $orderRepository
+     * @param LoggerInterface                                  $logger
+     * @param \AnyPlaceMedia\SendSMS\Helper\SendSMS            $helper
      */
     public function __construct(
         Action\Context $context,
@@ -92,18 +102,20 @@ class Index extends \Magento\Backend\App\Action implements HttpPostActionInterfa
         \Magento\Framework\Controller\Result\RawFactory $resultRawFactory,
         OrderManagementInterface $orderManagement,
         OrderRepositoryInterface $orderRepository,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        \AnyPlaceMedia\SendSMS\Helper\SendSMS $helper
     ) {
-        $this->_coreRegistry = $coreRegistry;
-        $this->_fileFactory = $fileFactory;
-        $this->_translateInline = $translateInline;
-        $this->resultPageFactory = $resultPageFactory;
-        $this->resultJsonFactory = $resultJsonFactory;
+        $this->_coreRegistry       = $coreRegistry;
+        $this->_fileFactory        = $fileFactory;
+        $this->_translateInline    = $translateInline;
+        $this->resultPageFactory   = $resultPageFactory;
+        $this->resultJsonFactory   = $resultJsonFactory;
         $this->resultLayoutFactory = $resultLayoutFactory;
-        $this->resultRawFactory = $resultRawFactory;
-        $this->orderManagement = $orderManagement;
-        $this->orderRepository = $orderRepository;
-        $this->logger = $logger;
+        $this->resultRawFactory    = $resultRawFactory;
+        $this->orderManagement     = $orderManagement;
+        $this->orderRepository     = $orderRepository;
+        $this->logger              = $logger;
+        $this->helper              = $helper;
         parent::__construct($context);
     }
 
@@ -116,14 +128,14 @@ class Index extends \Magento\Backend\App\Action implements HttpPostActionInterfa
     {
         $order = $this->_initOrder();
         if ($order) {
-            $vars = $this->getRequest()->getParams()['sendsms'];
-            $phones = $this->getPhones($order);
+            $vars    = $this->getRequest()->getParams()['sendsms'];
+            $phones  = $this->getPhones($order);
             $message = $vars['message'];
             if (empty($message)) {
                 $response = ['error' => true, 'message' => __('The message box is empty.')];
             } else {
                 $phone = $phones[$vars['phone']];
-                $gdpr = false;
+                $gdpr  = false;
                 $short = false;
                 if (isset($vars['gdpr'])) {
                     $gdpr = $vars['gdpr'] == 1 ? true : false;
@@ -131,9 +143,8 @@ class Index extends \Magento\Backend\App\Action implements HttpPostActionInterfa
                 if (isset($vars['short'])) {
                     $short = $vars['short'] == 1 ? true : false;
                 }
-                $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-                $helper = $objectManager->get(\AnyPlaceMedia\SendSMS\Helper\SendSMS::class);
-                $helper->sendSMS($phone, $message, 'campaign', $gdpr, $short);
+
+                $this->helper->sendSMS($phone, $message, 'campaign', $gdpr, $short);
                 $response = ['error' => false, 'message' => __('Message send')];
             }
         }
@@ -168,14 +179,21 @@ class Index extends \Magento\Backend\App\Action implements HttpPostActionInterfa
         return $order;
     }
 
-    public function getPhones($order)
+    /**
+     * Get phone numbers from order address
+     *
+     * @param  \Magento\Sales\Moder\Order $order
+     * @return array
+     */
+    protected function getPhones($order)
     {
         if ($order) {
             return array_unique([
                 $order->getBillingAddress()->getTelephone(),
-                $order->getShippingAddress()->getTelephone()
+                $order->getShippingAddress()->getTelephone(),
             ]);
         }
+
         return [];
     }
 }

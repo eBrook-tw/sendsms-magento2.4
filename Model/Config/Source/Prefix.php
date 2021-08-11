@@ -1,49 +1,25 @@
 <?php
-
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Ebrook
+ *
+ * @category    Ebrook
+ * @package     AnyPlaceMedia_SendSMS
+ * @copyright   Copyright © 2021 Ebrook co., ltd. (https://www.ebrook.com.tw)
+ * @source https://github.com/sendSMS-RO/sendsms-magento2.4
  */
 
 namespace AnyPlaceMedia\SendSMS\Model\Config\Source;
 
 /**
  * @api
- * @since 100.0.2
+ * @since 1.0.0
  */
 class Prefix implements \Magento\Framework\Option\ArrayInterface
 {
     /**
-     * Options getter
-     *
-     * @return array
+     * @var array
      */
-    public function toOptionArray()
-    {
-        $output = [];
-        $output[] = ['value' => 'INT', 'label' => "International"];
-        foreach ($this->country_codes as $key => $value) {
-            $output[] = ['value' => $value, 'label' => "$key ($value)"];
-        }
-        return $output;
-    }
-
-    /**
-     * Get options in "key-value" format
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        $output = [];
-        $output["INT"] = "International";
-        foreach ($this->country_codes as $key => $value) {
-            $output[$value] = "$key ($value)";
-        }
-        return $output;
-    }
-
-    private $country_codes = [
+    private $countryCodes = [
         'AC' => '247',
         'AD' => '376',
         'AE' => '971',
@@ -311,4 +287,34 @@ class Prefix implements \Magento\Framework\Option\ArrayInterface
         'ZM' => '260',
         'ZW' => '263',
     ];
+
+    /**
+     * Options getter
+     *
+     * @return array
+     */
+    public function toOptionArray()
+    {
+        $output   = [];
+        $output[] = ['value' => 'INT', 'label' => "International"];
+        foreach ($this->countryCodes as $key => $value) {
+            $output[] = ['value' => $value, 'label' => "$key ($value)"];
+        }
+        return $output;
+    }
+
+    /**
+     * Get options in "key-value" format
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $output        = [];
+        $output["INT"] = "International";
+        foreach ($this->countryCodes as $key => $value) {
+            $output[$value] = "$key ($value)";
+        }
+        return $output;
+    }
 }

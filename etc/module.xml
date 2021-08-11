@@ -1,6 +1,16 @@
 <?xml version="1.0"?>
+<!--
+/**
+ * Ebrook
+ *
+ * @category    Ebrook
+ * @package     AnyPlaceMedia_SendSMS
+ * @copyright   Copyright © 2021 Ebrook co., ltd. (https://www.ebrook.com.tw)
+ * @source https://github.com/sendSMS-RO/sendsms-magento2.4
+ */
+-->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="AnyPlaceMedia_SendSMS" setup_version="1.0.0">
+    <module name="AnyPlaceMedia_SendSMS" setup_version="1.0.6">
         <sequence>
             <module name="Magento_Sales"/>
         </sequence>

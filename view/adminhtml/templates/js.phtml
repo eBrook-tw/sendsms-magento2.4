@@ -1,16 +1,27 @@
-<?php ?>
+<?php
+/**
+ * Ebrook
+ *
+ * @category    Ebrook
+ * @package     AnyPlaceMedia_SendSMS
+ * @copyright   Copyright © 2021 Ebrook co., ltd. (https://www.ebrook.com.tw)
+ * @source https://github.com/sendSMS-RO/sendsms-magento2.4
+ */
+?>
 
 <script type="text/javascript">
-    require(
-        ['jquery'],
-        function($) {
-            $(function() {
-                $(document).on('keyup', 'div.sendsms-char-count-filtered textarea', function(event) {
+    require(['jquery'], function($) {
+        $(function() {
+            $(document).on(
+                'keyup',
+                'div.sendsms-char-count-filtered textarea',
+                function(event) {
                     var notice = $(document).find('.admin__field-note span')[0];
                     $(notice).html(lenghtCounter($(this).val()));
-                });
-            });
+                }
+            );
         });
+    });
 
     function lenghtCounter(message) {
         var lenght = message.length;
@@ -21,15 +32,18 @@
             }
             return "Number of messages: " + Math.floor(messages) + " (" + lenght + ")";
         } else {
-            return "The field is empty";
+            return "<?= __('The field is empty')?>";
         }
     }
 
     function checkPrice(phonesno, price) {
         if (phonesno == 0 || price == 0) {
-            alert("Please filter at least a phone number or send at least one SMS");
+            alert("<?php __('Please filter at least a phone number or send at least one SMS')?>");
         } else {
-            message = document.querySelectorAll('div.sendsms-char-count-filtered textarea')[0].value;
+            message = document
+                .querySelectorAll(
+                    'div.sendsms-char-count-filtered textarea'
+                )[0].value;
             var lenght = message.length;
             var messages = lenght / 160 + 1;
             if (lenght > 0) {

@@ -1,10 +1,17 @@
 <?php
+/**
+ * Ebrook
+ *
+ * @category    Ebrook
+ * @package     AnyPlaceMedia_SendSMS
+ * @copyright   Copyright © 2021 Ebrook co., ltd. (https://www.ebrook.com.tw)
+ * @source https://github.com/sendSMS-RO/sendsms-magento2.4
+ */
 
 namespace AnyPlaceMedia\SendSMS\Block\Adminhtml\Order\View;
 
 use AnyPlaceMedia\SendSMS\Model\Order;
 use Magento\Framework\App\ObjectManager;
-use Magento\Framework\Controller\ResultFactory;
 use Magento\Shipping\Helper\Data as ShippingHelper;
 use Magento\Tax\Helper\Data as TaxHelper;
 
@@ -37,13 +44,13 @@ class SendSMS extends \Magento\Backend\Block\Widget
         \Magento\Framework\Registry $registry,
         \Magento\Sales\Helper\Admin $adminHelper,
         array $data = [],
-        ?ShippingHelper $shippingHelper = null,
-        ?TaxHelper $taxHelper = null
+        ? ShippingHelper $shippingHelper = null,
+        ? TaxHelper $taxHelper = null
     ) {
-        $this->_adminHelper = $adminHelper;
-        $this->_coreRegistry = $registry;
+        $this->_adminHelper     = $adminHelper;
+        $this->_coreRegistry    = $registry;
         $data['shippingHelper'] = $shippingHelper ?? ObjectManager::getInstance()->get(ShippingHelper::class);
-        $data['taxHelper'] = $taxHelper ?? ObjectManager::getInstance()->get(TaxHelper::class);
+        $data['taxHelper']      = $taxHelper ?? ObjectManager::getInstance()->get(TaxHelper::class);
         parent::__construct($context, $data);
     }
 
@@ -55,7 +62,7 @@ class SendSMS extends \Magento\Backend\Block\Widget
     protected function _prepareLayout()
     {
         $onclick = "submitAndReloadArea($('order_sendsms').parentNode, '" . $this->getSubmitUrl() . "')";
-        $button = $this->getLayout()->createBlock(
+        $button  = $this->getLayout()->createBlock(
             \Magento\Backend\Block\Widget\Button::class
         )->setData(
             ['label' => __('Send'), 'class' => 'action-save action-secondary', 'onclick' => $onclick]
@@ -94,7 +101,7 @@ class SendSMS extends \Magento\Backend\Block\Widget
         if ($order) {
             return array_unique([
                 $order->getBillingAddress()->getTelephone(),
-                $order->getShippingAddress()->getTelephone()
+                $order->getShippingAddress()->getTelephone(),
             ]);
         }
         return [];

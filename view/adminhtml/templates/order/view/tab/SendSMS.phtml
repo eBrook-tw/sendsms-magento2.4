@@ -1,6 +1,18 @@
+<?php
+/**
+ * Ebrook
+ *
+ * @category    Ebrook
+ * @package     AnyPlaceMedia_SendSMS
+ * @copyright   Copyright © 2021 Ebrook co., ltd. (https://www.ebrook.com.tw)
+ * @source https://github.com/sendSMS-RO/sendsms-magento2.4
+ */
+?>
+
 <div class="admin__page-section-title">
-    <span class="title">Send an SMS</span>
+    <span class="title"><?= $block->escapeHtml(__('Send an SMS'))?></span>
 </div>
+
 <div class="admin__page-section-item">
     <div id="order_sendsms">
         <div class="admin__field">
@@ -18,7 +30,7 @@
 
         <div class="admin__field">
             <div class="admin__field admin__field-option">
-                <input name="sendsms[short]" type="checkbox" id="sendsms_short" class="admin__control-checkbox" 
+                <input name="sendsms[short]" type="checkbox" id="sendsms_short" class="admin__control-checkbox"
                     value="1" />
                 <label class="admin__field-label" for="sendsms_short">
                     <?= $block->escapeHtml(
@@ -28,7 +40,7 @@
             </div>
 
             <div class="admin__field admin__field-option">
-                <input name="sendsms[gdpr]" type="checkbox" id="sendsms_gdpr" class="admin__control-checkbox" 
+                <input name="sendsms[gdpr]" type="checkbox" id="sendsms_gdpr" class="admin__control-checkbox"
                     value="1" />
                 <label class="admin__field-label" for="sendsms_gdpr">
                     <?= $block->escapeHtml(
@@ -45,7 +57,7 @@
                 <?= $block->escapeHtml(__('Message')) ?>
             </label>
             <div class="admin__field-control">
-                <textarea name="sendsms[message]" rows="3" cols="5" id="sendsms_message" 
+                <textarea name="sendsms[message]" rows="3" cols="5" id="sendsms_message"
                     class="admin__control-textarea sendsms-char-count">
                 </textarea>
             </div>

@@ -1,10 +1,18 @@
 <?php
+/**
+ * Ebrook
+ *
+ * @category    Ebrook
+ * @package     AnyPlaceMedia_SendSMS
+ * @copyright   Copyright © 2021 Ebrook co., ltd. (https://www.ebrook.com.tw)
+ * @source https://github.com/sendSMS-RO/sendsms-magento2.4
+ */
 
 namespace AnyPlaceMedia\SendSMS\Block\Adminhtml\Form\Field;
 
-use AnyPlaceMedia\SendSMS\Block\Adminhtml\Form\Field\StatusColumn;
 use AnyPlaceMedia\SendSMS\Block\Adminhtml\Form\Field\GdprColumn;
 use AnyPlaceMedia\SendSMS\Block\Adminhtml\Form\Field\ShortColumn;
+use AnyPlaceMedia\SendSMS\Block\Adminhtml\Form\Field\StatusColumn;
 use Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray;
 use Magento\Framework\DataObject;
 use Magento\Framework\Exception\LocalizedException;
@@ -35,8 +43,8 @@ class Messages extends AbstractFieldArray
     protected function _prepareToRender()
     {
         $this->addColumn('status', [
-            'label' => __('Status'),
-            'renderer' => $this->getStatusRenderer()
+            'label'    => __('Status'),
+            'renderer' => $this->getStatusRenderer(),
         ]);
 
         $this->addColumn('message', [
@@ -45,16 +53,16 @@ class Messages extends AbstractFieldArray
         ]);
 
         $this->addColumn('gdpr', [
-            'label' => __('Unsubcribe link?'),
+            'label'    => __('Unsubcribe link?'),
             'renderer' => $this->getGdprRenderer(),
         ]);
 
         $this->addColumn('short', [
-            'label' => __('Minimize all urls?'),
+            'label'    => __('Minimize all urls?'),
             'renderer' => $this->getShortRenderer(),
         ]);
 
-        $this->_addAfter = false;
+        $this->_addAfter       = false;
         $this->_addButtonLabel = __('Add');
     }
 

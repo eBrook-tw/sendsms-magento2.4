@@ -1,9 +1,28 @@
 <?php
+/**
+ * Ebrook
+ *
+ * @category    Ebrook
+ * @package     AnyPlaceMedia_SendSMS
+ * @copyright   Copyright © 2021 Ebrook co., ltd. (https://www.ebrook.com.tw)
+ * @source https://github.com/sendSMS-RO/sendsms-magento2.4
+ */
 
 namespace AnyPlaceMedia\SendSMS\Model\Source;
 
+use Magento\Customer\Model\ResourceModel\Customer\CollectionFactory;
+use Magento\Framework\App\ResourceConnection;
+
 class Regions implements \Magento\Framework\Option\ArrayInterface
 {
+    public function __construct(
+        CollectionFactory $customerCollectionFactory,
+        ResourceConnection $connection
+    ) {
+        $this->customerCollectionFactory = $customerCollectionFactory;
+        $this->connection                = $connection;
+    }
+
     /**
      * Retrieve options array.
      *
@@ -11,26 +30,29 @@ class Regions implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $result = [];
 
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $collectionFactory = $objectManager->get(
-            \Magento\Customer\Model\ResourceModel\Customer\CollectionFactory::class
+        $customerAddressEntityTableName = $this->connection->getTableName(
+            'customer_address_entity'
         );
-        $resource = $objectManager->get(\Magento\Framework\App\ResourceConnection::class);
-        $collection = $collectionFactory->create();
+        $collection = $this->customerCollectionFactory->create();
         $collection->getSelect()->join(
-            $resource->getTableName('customer_address_entity'),
-            'e.entity_id=' . $resource->getTableName('customer_address_entity') . '.parent_id',
+            $customerAddressEntityTableName,
+            'e.entity_id=' . $customerAddressEntityTableName . '.parent_id',
             'region'
         );
 
-        $data = $collection->getData();
-        foreach ($data as $d) {
-            if (!in_array(['value' => $d['region'], 'label' => $d['region']], $result)) {
-                $result[] = ['value' => $d['region'], 'label' => $d['region']];
+        $result = [];
+        foreach ($collection as $customer) {
+            $option = [
+                'value' => $customer->getRegion(),
+                'label' => $customer->getRegion(),
+            ];
+
+            if (!in_array($option, $result)) {
+                $result[] = $option;
             }
         }
+
         return $result;
     }
 }

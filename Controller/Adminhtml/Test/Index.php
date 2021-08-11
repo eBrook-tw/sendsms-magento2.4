@@ -1,18 +1,45 @@
 <?php
+/**
+ * Ebrook
+ *
+ * @category    Ebrook
+ * @package     AnyPlaceMedia_SendSMS
+ * @copyright   Copyright © 2021 Ebrook co., ltd. (https://www.ebrook.com.tw)
+ * @source https://github.com/sendSMS-RO/sendsms-magento2.4
+ */
+
 namespace AnyPlaceMedia\SendSMS\Controller\Adminhtml\Test;
 
 class Index extends \Magento\Backend\App\Action
 {
+    /**
+     * @var boolean|\Magento\Framework\View\Result\PageFactory
+     */
     protected $resultPageFactory = false;
 
+    /**
+     * @var \AnyPlaceMedia\SendSMS\Helper\SendSMS
+     */
+    protected $helper;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context        $context
+     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
+     * @param \AnyPlaceMedia\SendSMS\Helper\SendSMS      $helper
+     */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Framework\View\Result\PageFactory $resultPageFactory
+        \Magento\Framework\View\Result\PageFactory $resultPageFactory,
+        \AnyPlaceMedia\SendSMS\Helper\SendSMS $helper
     ) {
         parent::__construct($context);
         $this->resultPageFactory = $resultPageFactory;
+        $this->helper            = $helper;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function execute()
     {
         $resultPage = $this->resultPageFactory->create();
@@ -22,21 +49,20 @@ class Index extends \Magento\Backend\App\Action
         $resultPage->addBreadcrumb(__('SendSMS'), __('Test'));
 
         # POST
-        $phone = $this->getRequest()->getParam('phone');
+        $phone   = $this->getRequest()->getParam('phone');
         $message = $this->getRequest()->getParam('message');
-        $gdpr = $this->getRequest()->getParam('gdpr');
-        $short = $this->getRequest()->getParam('short');
+        $gdpr    = $this->getRequest()->getParam('gdpr');
+        $short   = $this->getRequest()->getParam('short');
 
         if (!empty($phone) && !empty($message)) {
-            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-            $helper = $objectManager->get('AnyPlaceMedia\SendSMS\Helper\SendSMS');
-            $helper->sendSMS($phone, $message, 'test', $gdpr, $short);
+            $this->helper->sendSMS($phone, $message, 'test', $gdpr, $short);
 
             $messageBlock = $resultPage->getLayout()->createBlock(
                 'Magento\Framework\View\Element\Messages',
                 'answer'
             );
-            $messageBlock->addSuccess('The message was sent.');
+
+            $messageBlock->addSuccess(__('The message was sent.'));
             $resultPage->getLayout()->setChild(
                 'sendsms_messages',
                 $messageBlock->getNameInLayout(),

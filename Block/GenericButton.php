@@ -1,8 +1,14 @@
 <?php
+/**
+ * Ebrook
+ *
+ * @category    Ebrook
+ * @package     AnyPlaceMedia_SendSMS
+ * @copyright   Copyright © 2021 Ebrook co., ltd. (https://www.ebrook.com.tw)
+ * @source https://github.com/sendSMS-RO/sendsms-magento2.4
+ */
 
 namespace AnyPlaceMedia\SendSMS\Block;
-
-use Magento\Search\Controller\RegistryConstants;
 
 class GenericButton
 {
@@ -34,7 +40,7 @@ class GenericButton
         \Magento\Config\Model\ResourceModel\Config\Data\CollectionFactory $collectionFactory
     ) {
         $this->urlBuilder = $context->getUrlBuilder();
-        $this->registry = $registry;
+        $this->registry   = $registry;
         $this->collection = $collectionFactory->create();
     }
 

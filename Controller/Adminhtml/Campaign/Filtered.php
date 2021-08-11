@@ -1,12 +1,19 @@
 <?php
+/**
+ * Ebrook
+ *
+ * @category    Ebrook
+ * @package     AnyPlaceMedia_SendSMS
+ * @copyright   Copyright © 2021 Ebrook co., ltd. (https://www.ebrook.com.tw)
+ * @source https://github.com/sendSMS-RO/sendsms-magento2.4
+ */
 
 namespace AnyPlaceMedia\SendSMS\Controller\Adminhtml\Campaign;
 
 use Magento\Backend\App\Action\Context;
-use Magento\Framework\View\Result\PageFactory;
-use Magento\Framework\Registry;
 use Magento\Framework\Controller\Result\JsonFactory;
-use Magento\Framework\Setup\Declaration\Schema\Dto\Factories\Unique;
+use Magento\Framework\Registry;
+use Magento\Framework\View\Result\PageFactory;
 
 class Filtered extends \Magento\Backend\App\Action
 {
@@ -26,7 +33,7 @@ class Filtered extends \Magento\Backend\App\Action
         \Magento\Sales\Model\ResourceModel\Order\Collectionfactory $collectionFactory
     ) {
         $this->resultPageFactory = $pageFactory;
-        $this->_coreRegistry = $coreRegistry;
+        $this->_coreRegistry     = $coreRegistry;
         $this->resultJsonFactory = $resultJsonFactory;
         $this->collectionFactory = $collectionFactory;
         parent::__construct($context);
@@ -39,13 +46,13 @@ class Filtered extends \Magento\Backend\App\Action
 
         # data
         $startDate = $this->getRequest()->getParam('start_date');
-        $endDate = $this->getRequest()->getParam('end_date');
-        $minSum = $this->getRequest()->getParam('min_sum');
-        $product = $this->getRequest()->getParam('product');
-        $country = $this->getRequest()->getParam('county');
+        $endDate   = $this->getRequest()->getParam('end_date');
+        $minSum    = $this->getRequest()->getParam('min_sum');
+        $product   = $this->getRequest()->getParam('product');
+        $country   = $this->getRequest()->getParam('county');
 
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $resource = $objectManager->get(\Magento\Framework\App\ResourceConnection::class);
+        $resource      = $objectManager->get(\Magento\Framework\App\ResourceConnection::class);
 
         $results = $this->getOrderPhones($startDate, $endDate, $minSum, $product, $country, $resource);
 
@@ -55,16 +62,16 @@ class Filtered extends \Magento\Backend\App\Action
 
         if (is_array($postData)) {
             $message = $postData['message'];
-            $phones = $results;
+            $phones  = $results;
             if (!empty($message) && count($phones)) {
                 $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-                $helper = $objectManager->get(\AnyPlaceMedia\SendSMS\Helper\SendSMS::class);
+                $helper        = $objectManager->get(\AnyPlaceMedia\SendSMS\Helper\SendSMS::class);
                 $helper->batchCreate($phones, $message);
             }
             # redirect back
             $resultRedirect = $this->resultRedirectFactory->create();
             return $resultRedirect->setPath('*/*/index', [
-                '_query' => ['sent' => 1]
+                '_query' => ['sent' => 1],
             ]);
         }
         $this->_coreRegistry->register('phonesno', count($results));
@@ -109,7 +116,7 @@ class Filtered extends \Magento\Backend\App\Action
         if (!empty($country)) {
             $collection->addFieldToFilter('region', ['in' => $country]);
         }
-        $data = $collection->getData();
+        $data         = $collection->getData();
         $uniquePhones = [];
         foreach ($data as $d) {
             $uniquePhones[] = $d['telephone'];

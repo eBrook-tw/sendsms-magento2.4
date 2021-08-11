@@ -1,4 +1,13 @@
 <?php
+/**
+ * Ebrook
+ *
+ * @category    Ebrook
+ * @package     AnyPlaceMedia_SendSMS
+ * @copyright   Copyright © 2021 Ebrook co., ltd. (https://www.ebrook.com.tw)
+ * @source https://github.com/sendSMS-RO/sendsms-magento2.4
+ */
+
 namespace AnyPlaceMedia\SendSMS\Model\ResourceModel;
 
 /**
@@ -12,8 +21,14 @@ class History extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
      */
     protected $_date;
 
+    /**
+     * @var string
+     */
     protected $_idFieldName = 'history_id';
 
+    /**
+     * @var string
+     */
     protected $_mainTable = 'sendsms_history';
 
     /**
