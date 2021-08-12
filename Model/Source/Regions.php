@@ -38,14 +38,16 @@ class Regions implements \Magento\Framework\Option\ArrayInterface
         $collection->getSelect()->join(
             $customerAddressEntityTableName,
             'e.entity_id=' . $customerAddressEntityTableName . '.parent_id',
-            'region'
+            ['region', 'region_id']
         );
 
+        $data = $collection->getData();
+
         $result = [];
-        foreach ($collection as $customer) {
+        foreach ($data as $customer) {
             $option = [
-                'value' => $customer->getRegion(),
-                'label' => $customer->getRegion(),
+                'value' => $customer['region'],
+                'label' => $customer['region'],
             ];
 
             if (!in_array($option, $result)) {
