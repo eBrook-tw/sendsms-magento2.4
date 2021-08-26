@@ -16,16 +16,6 @@ namespace AnyPlaceMedia\SendSMS\Model\ResourceModel;
 class History extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 {
     /**
-     * @var string
-     */
-    protected $_idFieldName = 'history_id';
-
-    /**
-     * @var string
-     */
-    protected $_mainTable = 'sendsms_history';
-
-    /**
      * Initialize resource model
      *
      * @return void
