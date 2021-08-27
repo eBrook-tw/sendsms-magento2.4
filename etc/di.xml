@@ -32,8 +32,6 @@
         <arguments>
             <argument name="handlers" xsi:type="array">
                 <item name="debug" xsi:type="object">AnyPlaceMedia\SendSMS\Model\Logger</item>
-                <item name="error" xsi:type="object">AnyPlaceMedia\SendSMS\Model\Logger</item>
-                <item name="info" xsi:type="object">AnyPlaceMedia\SendSMS\Model\Logger</item>
             </argument>
         </arguments>
     </virtualType>
