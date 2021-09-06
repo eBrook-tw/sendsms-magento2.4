@@ -875,7 +875,7 @@ class SendSMS extends AbstractHelper
         $type,
         $comment = ''
     ) {
-        $message = $this->getValue(
+        $message = (string) $this->getValue(
             sprintf('sendsms_settings_order_messages/%s', $type),
             ScopeInterface::SCOPE_STORE,
             $object->getStoreId()
