@@ -90,7 +90,14 @@ class NotifySMSSender
             $comment
         );
 
-        $this->logger->debug($message);
+        $this->logger->debug(
+            sprintf(
+                '[%s] #%s: %s',
+                (string) $this->type,
+                (string) $object->getIncrementId(),
+                (string) $message
+            )
+        );
 
         if ($message) {
             return $this->helper->sendSMS(

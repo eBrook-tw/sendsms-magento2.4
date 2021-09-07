@@ -611,7 +611,7 @@ class SendSMS extends AbstractHelper
      * @return array
      */
     public function getCreditmemoCommentTransport(
-        Creditmemo $creditmemo,
+        AbstractModel $creditmemo,
         $comment
     ) {
         $order = $creditmemo->getOrder();
@@ -635,7 +635,7 @@ class SendSMS extends AbstractHelper
      * @param  Creditmemo $creditmemo
      * @return array
      */
-    public function getCreditmemoTransport(Creditmemo $creditmemo)
+    public function getCreditmemoTransport(AbstractModel $creditmemo)
     {
         $order = $creditmemo->getOrder();
 
@@ -664,7 +664,7 @@ class SendSMS extends AbstractHelper
      * @return array
      */
     public function getInvoiceCommentTransport(
-        Invoice $invoice,
+        AbstractModel $invoice,
         $comment
     ) {
         $order = $invoice->getOrder();
@@ -688,7 +688,7 @@ class SendSMS extends AbstractHelper
      * @param  Invoice $invoice
      * @return array
      */
-    public function getInvoiceTransport(Invoice $invoice)
+    public function getInvoiceTransport(AbstractModel $invoice)
     {
         $order = $invoice->getOrder();
         return [
@@ -715,7 +715,7 @@ class SendSMS extends AbstractHelper
      * @param  string $comment
      * @return array
      */
-    public function getOrderCommentTransport(Order $order, $comment)
+    public function getOrderCommentTransport(AbstractModel $order, $comment)
     {
         return [
             'order'      => $order,
@@ -735,7 +735,7 @@ class SendSMS extends AbstractHelper
      * @param  Order  $order
      * @return string
      */
-    public function getOrderTransport(Order $order)
+    public function getOrderTransport(AbstractModel $order)
     {
         return [
             'order'                => $order,
@@ -759,7 +759,7 @@ class SendSMS extends AbstractHelper
      * @param  string   $comment
      * @return array
      */
-    public function getShipmentCommentTransport(Shipment $shipment, $comment)
+    public function getShipmentCommentTransport(AbstractModel $shipment, $comment)
     {
         $order = $shipment->getOrder();
         return [
@@ -781,7 +781,7 @@ class SendSMS extends AbstractHelper
      * @param  Shipment $shipment
      * @return array
      */
-    public function getShipmentTransport(Shipment $shipment)
+    public function getShipmentTransport(AbstractModel $shipment)
     {
         $order = $shipment->getOrder();
 
