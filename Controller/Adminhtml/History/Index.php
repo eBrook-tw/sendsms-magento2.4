@@ -51,6 +51,5 @@ class Index extends \Magento\Backend\App\Action
     protected function _isAllowed()
     {
         return true;
-        //$this->_authorization->isAllowed('Mageplaza_HelloWorld::post_manage');
     }
 }
