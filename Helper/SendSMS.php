@@ -344,7 +344,7 @@ class SendSMS extends AbstractHelper
             );
         }
 
-        $phone = $this->validatePhone($phone);
+        $phone = $this->validatePhone($phone, $storeId);
 
         if (!empty($phone) && $this->checkCredentials()) {
             $status = $this->doRequest(
@@ -357,7 +357,7 @@ class SendSMS extends AbstractHelper
                         $storeId
                     ),
                     'to'     => $phone,
-                    'text'   => $message,
+                    'text'   => trim($message),
                     'short'  => $short ? 'true' : 'false',
                 ]
             );
@@ -529,9 +529,10 @@ class SendSMS extends AbstractHelper
      * Validate phone number
      *
      * @param  string $phoneNumber
+     * @param  int|null $storeId
      * @return string
      */
-    public function validatePhone($phoneNumber)
+    public function validatePhone($phoneNumber, $storeId = null)
     {
         if (empty($phoneNumber)) {
             return '';
@@ -541,7 +542,11 @@ class SendSMS extends AbstractHelper
 
         //Strip out leading zeros:
         //this will check the country code and apply it if needed
-        $cc = $this->scopeConfig->getValue('sendsms_settings_prefix');
+        $cc = $this->getValue(
+            'sendsms_settings_prefix',
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
 
         if ($cc === 'INT') {
             return $phoneNumber;
