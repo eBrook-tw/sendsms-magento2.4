@@ -15,4 +15,4 @@
 <p><?= $block->escapeHtml(__('In the settings page, under credentials, you will find a field for every order status avaible in Magento.'))?></p>
 <p><?= $block->escapeHtml(__('You will need to enter a message to send an SMS for the order status.'))?></p>
 <p><?= $block->escapeHtml(__('You can enter variables which will be filled based on the order informations.'))?></p>
-<p><?= __('Example: <strong>Good day {billing_first_name}. Your order with the {order_number} is completed.</strong>')?></p>
+<p><?= __('Example: <strong>Good day {{var order_data.customer_name}}. Your order with the #{{var order.increment_id}} is completed.</strong>')?></p>

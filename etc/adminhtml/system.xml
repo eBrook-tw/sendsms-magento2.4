@@ -76,10 +76,10 @@
                         <label>Shipment Comment Template</label>
                     </field>
                     <field id="creditmemo" translate="label" type="textarea" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Credimemo Template</label>
+                        <label>Credit Memos Template</label>
                     </field>
                     <field id="creditmemo_comment" translate="label" type="textarea" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Credimemo Comment Template</label>
+                        <label>Credit Memos Comment Template</label>
                     </field>
                 </group>
             </group>
