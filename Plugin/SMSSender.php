@@ -65,7 +65,7 @@ class SMSSender
     ) {
         $sent = $proceed($object, $forceSyncMode);
 
-        if (!$sent || !$this->helper->isEneabled($object->getStoreId())) {
+        if (!$sent || !$this->helper->isEnabled($object->getStoreId())) {
             return $sent;
         }
 

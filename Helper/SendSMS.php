@@ -199,11 +199,28 @@ class SendSMS extends AbstractHelper
     }
 
     /**
+     * Check if SendSMS module is enabled
      *
-     * @param  null|int  $storeId
+     * @param  null|int $storeId
      * @return boolean
+     * @deprecated spelling error
      */
     public function isEneabled($storeId = null)
+    {
+        return (boolean) (int) $this->getValue(
+            'enabled',
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
+     * Check if SendSMS module is enabled
+     *
+     * @param  null|int $storeId
+     * @return boolean
+     */
+    public function isEnabled($storeId = null)
     {
         return (boolean) (int) $this->getValue(
             'enabled',

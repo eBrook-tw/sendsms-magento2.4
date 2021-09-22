@@ -68,7 +68,7 @@ class NotifySMSSender
     ) {
         $sent = $proceed($object, $forceSyncMode, $comment);
 
-        if (!$sent || !$this->helper->isEneabled($object->getStoreId())) {
+        if (!$sent || !$this->helper->isEnabled($object->getStoreId())) {
             return $sent;
         }
 
