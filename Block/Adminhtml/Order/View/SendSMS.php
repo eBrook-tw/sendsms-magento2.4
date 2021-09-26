@@ -10,6 +10,7 @@
 
 namespace AnyPlaceMedia\SendSMS\Block\Adminhtml\Order\View;
 
+use AnyPlaceMedia\SendSMS\Helper\SendSMS as SmsHelper;
 use AnyPlaceMedia\SendSMS\Model\Order;
 use Magento\Framework\App\ObjectManager;
 use Magento\Shipping\Helper\Data as ShippingHelper;
@@ -32,23 +33,31 @@ class SendSMS extends \Magento\Backend\Block\Widget
     protected $_adminHelper;
 
     /**
+     * @var SmsHelper
+     */
+    protected $smsHelper;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Sales\Helper\Admin $adminHelper
-     * @param array $data
-     * @param ShippingHelper|null $shippingHelper
-     * @param TaxHelper|null $taxHelper
+     * @param \Magento\Framework\Registry             $registry
+     * @param \Magento\Sales\Helper\Admin             $adminHelper
+     * @param SmsHelper                               $smsHelper
+     * @param array                                   $data
+     * @param ShippingHelper|null                     $shippingHelper
+     * @param TaxHelper|null                          $taxHelper
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Sales\Helper\Admin $adminHelper,
+        SmsHelper $smsHelper,
         array $data = [],
         ? ShippingHelper $shippingHelper = null,
         ? TaxHelper $taxHelper = null
     ) {
-        $this->_adminHelper     = $adminHelper;
         $this->_coreRegistry    = $registry;
+        $this->_adminHelper     = $adminHelper;
+        $this->smsHelper        = $smsHelper;
         $data['shippingHelper'] = $shippingHelper ?? ObjectManager::getInstance()->get(ShippingHelper::class);
         $data['taxHelper']      = $taxHelper ?? ObjectManager::getInstance()->get(TaxHelper::class);
         parent::__construct($context, $data);
@@ -105,6 +114,21 @@ class SendSMS extends \Magento\Backend\Block\Widget
             ]);
         }
         return [];
+    }
+
+    /**
+     * Check if show SMS section
+     *
+     * @return array
+     */
+    protected function _toHtml()
+    {
+        $order = $this->getOrder();
+        if (!$order || !$this->smsHelper->isEnabled($order->getStoreId())) {
+            return '';
+        }
+
+        return parent::_toHtml();
     }
 
     /**
